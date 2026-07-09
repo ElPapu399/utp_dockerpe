@@ -38,5 +38,6 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
+          platforms: linux/amd64, linux/arm64
           # USAR VARIABLE: Cambiamos la expresión por la variable de entorno corregida
           tags: ${{ env.IMAGE_TAG }}
