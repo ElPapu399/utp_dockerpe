@@ -27,10 +27,16 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      # NUEVO PASO: Convierte todo el string a minúsculas y lo guarda en el entorno
+      - name: Convertir nombre de repositorio a minúsculas
+        run: |
+          echo "IMAGE_TAG=ghcr.io/$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')/frontend-app:latest" >> $GITHUB_ENV
+
       - name: Construir y subir Imagen de Docker
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository }}/frontend-app:latest
+          # USAR VARIABLE: Cambiamos la expresión por la variable de entorno corregida
+          tags: ${{ env.IMAGE_TAG }}
